@@ -87,4 +87,31 @@ class NotaFiscalController extends Controller
     {
         //
     }
+
+    /**
+     * Cancela uma nota fiscal autorizada
+     *
+     * @param  \App\Http\Requests\CancelamentoNotaRequest  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function cancelar(CancelamentoNotaRequest $request, $id)
+    {
+        $notaFiscal = NotaFiscal::findOrFail($id);
+        $notaFiscalService = new NotaFiscalService();
+        
+        $resultado = $notaFiscalService->cancelarNotaFiscal($notaFiscal, $request->validated()['justificativa']);
+        
+        if ($resultado['sucesso']) {
+            return response()->json([
+                'success' => true,
+                'message' => $resultado['mensagem']
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'error' => $resultado['erro']
+            ], 422);
+        }
+    }
 }

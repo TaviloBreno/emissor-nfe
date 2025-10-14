@@ -134,7 +134,7 @@ class NotaFiscalService
     }
 
     /**
-     * Cancela uma nota fiscal autorizada
+     * Cancela uma nota fiscal autorizada (método antigo - manter compatibilidade)
      *
      * @param NotaFiscal $notaFiscal
      * @param string $justificativa
@@ -142,21 +142,58 @@ class NotaFiscalService
      */
     public function cancelarNota(NotaFiscal $notaFiscal, string $justificativa): array
     {
+        return $this->cancelarNotaFiscal($notaFiscal, $justificativa);
+    }
+
+    /**
+     * Cancela uma nota fiscal com validação de prazo e registro de evento
+     *
+     * @param NotaFiscal $notaFiscal
+     * @param string $justificativa
+     * @return array
+     */
+    public function cancelarNotaFiscal(NotaFiscal $notaFiscal, string $justificativa): array
+    {
+        // Verifica se a nota pode ser cancelada
         if ($notaFiscal->status !== 'autorizada') {
             return [
                 'sucesso' => false,
-                'erro' => 'Apenas notas autorizadas podem ser canceladas'
+                'erro' => 'Apenas notas fiscais autorizadas podem ser canceladas'
             ];
         }
 
-        // Aqui seria feita a comunicação com SEFAZ para cancelamento
-        // Por simplicidade, apenas atualizamos o status
-        $notaFiscal->update(['status' => 'cancelada']);
+        // Verifica o prazo de 24 horas para cancelamento
+        if ($notaFiscal->data_autorizacao && $notaFiscal->data_autorizacao->diffInHours(now()) > 24) {
+            return [
+                'sucesso' => false,
+                'erro' => 'Prazo de cancelamento expirado. Notas podem ser canceladas apenas em até 24 horas após a autorização.'
+            ];
+        }
 
-        return [
-            'sucesso' => true,
-            'mensagem' => 'Nota fiscal cancelada com sucesso'
-        ];
+        try {
+            // Atualiza o status da nota
+            $notaFiscal->update(['status' => 'cancelada']);
+
+            // Registra o evento de cancelamento
+            \App\Models\EventoNotaFiscal::create([
+                'nota_fiscal_id' => $notaFiscal->id,
+                'tipo_evento' => 'cancelamento',
+                'justificativa' => $justificativa,
+                'numero_protocolo_evento' => 'CANC' . time(),
+                'data_evento' => now()
+            ]);
+
+            return [
+                'sucesso' => true,
+                'mensagem' => 'Nota fiscal cancelada com sucesso'
+            ];
+
+        } catch (\Exception $e) {
+            return [
+                'sucesso' => false,
+                'erro' => 'Erro ao cancelar nota fiscal: ' . $e->getMessage()
+            ];
+        }
     }
 
     /**
