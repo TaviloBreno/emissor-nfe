@@ -13,11 +13,16 @@ class NotaFiscal extends Model
         'numero',
         'data_emissao',
         'tipo',
-        'valor_total'
+        'valor_total',
+        'numero_protocolo',
+        'status',
+        'data_autorizacao',
+        'codigo_verificacao'
     ];
     
     protected $casts = [
         'data_emissao' => 'date',
-        'valor_total' => 'decimal:2'
+        'valor_total' => 'decimal:2',
+        'data_autorizacao' => 'datetime'
     ];
 }
