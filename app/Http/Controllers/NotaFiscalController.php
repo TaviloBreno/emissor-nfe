@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\NotaFiscalRequest;
+use App\Http\Requests\NotaFiscalWebRequest;
 use App\Http\Requests\CancelamentoNotaRequest;
 use App\Http\Requests\InutilizacaoRequest;
 use App\Http\Requests\CartaCorrecaoRequest;
@@ -59,10 +60,10 @@ class NotaFiscalController extends Controller
     /**
      * Store a newly created resource in storage via web form.
      *
-     * @param  \App\Http\Requests\NotaFiscalRequest  $request
+     * @param  \App\Http\Requests\NotaFiscalWebRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(NotaFiscalRequest $request)
+    public function store(NotaFiscalWebRequest $request)
     {
         try {
             $notaFiscal = NotaFiscal::create($request->validated());
