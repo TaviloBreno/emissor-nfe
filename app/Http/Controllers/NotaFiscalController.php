@@ -116,4 +116,47 @@ class NotaFiscalController extends Controller
             ], 422);
         }
     }
+
+    /**
+     * Inutiliza numeração de notas fiscais
+     *
+     * @param  \App\Http\Requests\InutilizacaoRequest  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function inutilizar(InutilizacaoRequest $request)
+    {
+        $inutilizacaoService = new InutilizacaoService();
+        $resultado = $inutilizacaoService->inutilizarNumeracao($request->validated());
+        
+        if ($resultado['sucesso']) {
+            return response()->json([
+                'success' => true,
+                'message' => $resultado['mensagem'],
+                'protocolo' => $resultado['protocolo'],
+                'data_inutilizacao' => $resultado['data_inutilizacao']
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'error' => $resultado['erro']
+            ], 422);
+        }
+    }
+
+    /**
+     * Consulta inutilizações
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function consultarInutilizacoes(Request $request)
+    {
+        $inutilizacaoService = new InutilizacaoService();
+        $serie = $request->get('serie');
+        $inutilizacoes = $inutilizacaoService->consultarInutilizacoes($serie);
+        
+        return response()->json([
+            'data' => $inutilizacoes
+        ]);
+    }
 }
