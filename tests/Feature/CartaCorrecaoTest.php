@@ -254,9 +254,6 @@ class CartaCorrecaoTest extends TestCase
         $response = $this->postJson("/notas/{$notaFiscal->id}/correcao", $dadosCorrecao);
 
         $response->assertStatus(422);
-        $response->assertJson([
-            'success' => false,
-            'error' => 'O campo informado não pode ser corrigido via carta de correção'
-        ]);
+        $response->assertJsonValidationErrors(['campo_corrigido']);
     }
 }

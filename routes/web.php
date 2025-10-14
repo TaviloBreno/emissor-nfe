@@ -31,3 +31,4 @@ Route::post('/notas', [NotaFiscalController::class, 'store']);
 Route::post('/notas/{id}/cancelar', [NotaFiscalController::class, 'cancelar']);
 Route::post('/notas/inutilizar', [NotaFiscalController::class, 'inutilizar']);
 Route::get('/notas/inutilizacoes', [NotaFiscalController::class, 'consultarInutilizacoes']);
+Route::post('/notas/{id}/correcao', [NotaFiscalController::class, 'emitirCartaCorrecao']);
