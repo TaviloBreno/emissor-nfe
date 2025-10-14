@@ -6,10 +6,12 @@ use App\Http\Requests\NotaFiscalRequest;
 use App\Http\Requests\CancelamentoNotaRequest;
 use App\Http\Requests\InutilizacaoRequest;
 use App\Http\Requests\CartaCorrecaoRequest;
+use App\Http\Requests\ManifestacaoRequest;
 use App\Models\NotaFiscal;
 use App\Services\NotaFiscalService;
 use App\Services\InutilizacaoService;
 use App\Services\CartaCorrecaoService;
+use App\Services\ManifestacaoService;
 use Illuminate\Http\Request;
 
 class NotaFiscalController extends Controller
@@ -188,6 +190,40 @@ class NotaFiscalController extends Controller
             return response()->json([
                 'success' => false,
                 'error' => $resultado['erro']
+            ], 422);
+        }
+    }
+
+    /**
+     * Registra manifestação do destinatário
+     *
+     * @param  \App\Http\Requests\ManifestacaoRequest  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function manifestar(ManifestacaoRequest $request, $id)
+    {
+        try {
+            $notaFiscal = NotaFiscal::findOrFail($id);
+            
+            $manifestacaoService = new ManifestacaoService();
+            
+            $resultado = $manifestacaoService->registrarManifestacao(
+                $notaFiscal,
+                $request->input('tipo_manifestacao'),
+                $request->input('justificativa')
+            );
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Manifestação registrada com sucesso',
+                'data' => $resultado
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
             ], 422);
         }
     }
