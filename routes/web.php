@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\NotaFiscalController;
 
@@ -16,29 +17,13 @@ use App\Http\Controllers\NotaFiscalController;
 |
 */
 
-Route::get('/', function () {
-    // Se o usuário estiver autenticado, redireciona para o dashboard
-    if (auth()->check()) {
-        return redirect('/dashboard');
-    }
-    // Se não estiver autenticado, mostra a tela de login
-    return view('login');
-})->name('login');
-
-Route::get('/login', function () {
-    // Se já estiver logado, redireciona para dashboard
-    if (auth()->check()) {
-        return redirect('/dashboard');
-    }
-    return view('login');
-});
-
-Route::post('/logout', function () {
-    Auth::logout();
-    request()->session()->invalidate();
-    request()->session()->regenerateToken();
-    return redirect('/');
-})->name('logout');
+// Rotas de autenticação
+Route::get('/', [AuthController::class, 'showLoginForm'])->name('login');
+Route::get('/login', [AuthController::class, 'showLoginForm']);
+Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
+Route::post('/register', [AuthController::class, 'register'])->name('auth.register');
 
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware('auth')
