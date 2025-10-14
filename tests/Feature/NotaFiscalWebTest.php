@@ -22,9 +22,9 @@ class NotaFiscalWebTest extends TestCase
     /** @test */
     public function pode_acessar_pagina_listagem_notas()
     {
-        $nota1 = NotaFiscal::factory()->create(['numero' => '001']);
-        $nota2 = NotaFiscal::factory()->create(['numero' => '002']);
-        $nota3 = NotaFiscal::factory()->create(['numero' => '003']);
+        $nota1 = NotaFiscal::factory()->create(['numero' => '001', 'user_id' => $this->user->id]);
+        $nota2 = NotaFiscal::factory()->create(['numero' => '002', 'user_id' => $this->user->id]);
+        $nota3 = NotaFiscal::factory()->create(['numero' => '003', 'user_id' => $this->user->id]);
 
         $response = $this->actingAs($this->user)
             ->get('/notas');
