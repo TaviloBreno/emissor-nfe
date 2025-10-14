@@ -23,10 +23,7 @@ class NotaFiscalPolicy
      */
     public function view(User $user, NotaFiscal $notaFiscal)
     {
-        // Debug para verificar os IDs
-        logger('Policy check - User ID: ' . $user->id . ', Nota user_id: ' . $notaFiscal->user_id);
-        
-        return $user->id === $notaFiscal->user_id;
+        return $user->id == $notaFiscal->user_id;
     }
 
     /**

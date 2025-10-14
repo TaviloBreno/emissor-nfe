@@ -59,6 +59,14 @@ class NotaFiscalAuthorizationTest extends TestCase
     /** @test */
     public function usuario_pode_acessar_detalhes_de_sua_propria_nota()
     {
+        // Debug para verificar os dados
+        $this->nota1 = $this->nota1->fresh(); // Recarrega do banco
+        
+        dump('User1 ID: ' . $this->user1->id . ' (tipo: ' . gettype($this->user1->id) . ')');
+        dump('Nota1 user_id: ' . $this->nota1->user_id . ' (tipo: ' . gettype($this->nota1->user_id) . ')');
+        dump('São iguais com ===: ' . ($this->user1->id === $this->nota1->user_id ? 'true' : 'false'));
+        dump('São iguais com ==: ' . ($this->user1->id == $this->nota1->user_id ? 'true' : 'false'));
+        
         $response = $this->actingAs($this->user1)
             ->get("/notas/{$this->nota1->id}");
 
