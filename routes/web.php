@@ -28,3 +28,4 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
     ->name('dashboard');
 
 Route::post('/notas', [NotaFiscalController::class, 'store']);
+Route::post('/notas/{id}/cancelar', [NotaFiscalController::class, 'cancelar']);
