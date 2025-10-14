@@ -72,18 +72,198 @@ We would like to extend our thanks to the following sponsors for funding Laravel
 - **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
 - **[Lendio](https://lendio.com)**
 
-## Contributing
+---
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## 📡 **API Endpoints**
 
-## Code of Conduct
+### **Notas Fiscais**
+```
+GET    /notas                     - Listar notas fiscais
+POST   /notas                     - Criar nova nota fiscal
+GET    /notas/{id}               - Visualizar nota específica
+PUT    /notas/{id}               - Atualizar nota fiscal
+DELETE /notas/{id}               - Excluir nota fiscal
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### **Operações Especiais**
+```
+POST   /notas/{id}/cancelar      - Cancelar nota fiscal
+POST   /notas/{id}/correcao      - Emitir carta de correção
+POST   /inutilizacao             - Inutilizar numeração
+POST   /notas/{id}/manifestar    - Registrar manifestação do destinatário
+```
 
-## Security Vulnerabilities
+---
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## 🔧 **Instalação e Configuração**
 
-## License
+### **Pré-requisitos**
+- PHP 7.4+
+- Composer
+- MySQL 5.7+
+- Laravel 8.x
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### **Passo a Passo**
+
+1. **Clone o repositório**
+   ```bash
+   git clone https://github.com/seu-usuario/emissor-nfe.git
+   cd emissor-nfe
+   ```
+
+2. **Instale as dependências**
+   ```bash
+   composer install
+   ```
+
+3. **Configure o ambiente**
+   ```bash
+   cp .env.example .env
+   php artisan key:generate
+   ```
+
+4. **Configure o banco de dados**
+   ```env
+   DB_CONNECTION=mysql
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=emissor_nfe
+   DB_USERNAME=seu_usuario
+   DB_PASSWORD=sua_senha
+   ```
+
+5. **Execute as migrações**
+   ```bash
+   php artisan migrate
+   ```
+
+6. **Execute os testes**
+   ```bash
+   php artisan test
+   ```
+
+---
+
+## 📊 **Estrutura do Banco de Dados**
+
+### **Tabela: nota_fiscals**
+| Campo | Tipo | Descrição |
+|-------|------|-----------|
+| id | bigint | Identificador único |
+| numero | int | Número sequencial da NF |
+| serie | int | Série da nota fiscal |
+| chave_acesso | varchar(44) | Chave única de acesso |
+| destinatario_nome | varchar | Nome do destinatário |
+| destinatario_cnpj | varchar(14) | CNPJ do destinatário |
+| valor_total | decimal(10,2) | Valor total da nota |
+| status | enum | Status atual da nota |
+| protocolo_autorizacao | varchar | Protocolo da SEFAZ |
+| xml_gerado | text | XML completo da NFe |
+
+### **Tabela: eventos_nota_fiscal**
+| Campo | Tipo | Descrição |
+|-------|------|-----------|
+| id | bigint | Identificador único |
+| nota_fiscal_id | bigint | FK para nota fiscal |
+| tipo_evento | enum | Tipo do evento |
+| protocolo | varchar | Protocolo do evento |
+| justificativa | text | Justificativa (se aplicável) |
+
+---
+
+## 🧪 **Testes**
+
+O sistema possui **45 testes automatizados** cobrindo:
+
+- ✅ **Testes de Feature**: Integração completa dos endpoints
+- ✅ **Testes Unitários**: Services e validações isoladas
+- ✅ **Cobertura completa**: Todas as funcionalidades testadas
+
+### **Executar testes**
+```bash
+# Todos os testes
+php artisan test
+
+# Testes específicos
+php artisan test tests/Feature/NotaFiscalTest.php
+php artisan test tests/Unit/AssinadorServiceTest.php
+```
+
+---
+
+## 📋 **Exemplos de Uso**
+
+### **1. Criar Nova Nota Fiscal**
+```json
+POST /notas
+{
+    "numero": 1001,
+    "serie": 1,
+    "destinatario_nome": "Empresa XYZ Ltda",
+    "destinatario_cnpj": "12345678000195",
+    "valor_total": 1500.00,
+    "itens": [
+        {
+            "descricao": "Produto A",
+            "quantidade": 2,
+            "valor_unitario": 750.00
+        }
+    ]
+}
+```
+
+### **2. Cancelar Nota Fiscal**
+```json
+POST /notas/123/cancelar
+{
+    "justificativa": "Produto entregue com defeito"
+}
+```
+
+### **3. Emitir Carta de Correção**
+```json
+POST /notas/123/correcao
+{
+    "correcao": "Correção do endereço de entrega",
+    "condicoes_uso": "Erro na digitação do endereço"
+}
+```
+
+### **4. Manifestação do Destinatário**
+```json
+POST /notas/123/manifestar
+{
+    "tipo_manifestacao": "confirmacao",
+    "justificativa": "Mercadoria recebida conforme pedido"
+}
+```
+
+---
+
+## 🤝 **Contribuição**
+
+1. Faça um Fork do projeto
+2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
+3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
+4. Push para a branch (`git push origin feature/AmazingFeature`)
+5. Abra um Pull Request
+
+---
+
+## 📄 **Licença**
+
+Este projeto está licenciado sob a [MIT License](https://opensource.org/licenses/MIT).
+
+---
+
+## 📞 **Suporte**
+
+- 📧 **Email**: suporte@emissornfe.com.br
+- 📱 **Telefone**: (11) 99999-9999
+- 🌐 **Website**: https://emissornfe.com.br
+
+---
+
+<p align="center">
+  Desenvolvido com ❤️ usando Laravel | © 2024 Emissor NFe
+</p>
