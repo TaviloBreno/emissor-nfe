@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Http\Requests\NotaFiscalRequest;
 use App\Http\Requests\CancelamentoNotaRequest;
 use App\Http\Requests\InutilizacaoRequest;
+use App\Http\Requests\CartaCorrecaoRequest;
 use App\Models\NotaFiscal;
 use App\Services\NotaFiscalService;
 use App\Services\InutilizacaoService;
+use App\Services\CartaCorrecaoService;
 use Illuminate\Http\Request;
 
 class NotaFiscalController extends Controller
