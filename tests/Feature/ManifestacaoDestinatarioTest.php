@@ -25,6 +25,10 @@ class ManifestacaoDestinatarioTest extends TestCase
 
         $response = $this->postJson("/notas/{$notaFiscal->id}/manifestar", $dados);
 
+        if ($response->getStatusCode() !== 200) {
+            dd($response->getContent());
+        }
+
         $response->assertStatus(200)
             ->assertJson([
                 'success' => true,

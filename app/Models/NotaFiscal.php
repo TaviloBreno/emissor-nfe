@@ -25,4 +25,12 @@ class NotaFiscal extends Model
         'valor_total' => 'decimal:2',
         'data_autorizacao' => 'datetime'
     ];
+
+    /**
+     * Relacionamento com eventos da nota fiscal
+     */
+    public function eventos()
+    {
+        return $this->hasMany(EventoNotaFiscal::class);
+    }
 }
