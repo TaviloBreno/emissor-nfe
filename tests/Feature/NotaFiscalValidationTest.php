@@ -253,7 +253,7 @@ class NotaFiscalValidationTest extends TestCase
     public function aceita_dados_validos_completos()
     {
         $response = $this->actingAs($this->user)
-            ->postJson('/notas', [
+            ->post('/notas', [
                 'numero' => '12345',
                 'data_emissao' => '2025-10-14',
                 'tipo' => 'saida',

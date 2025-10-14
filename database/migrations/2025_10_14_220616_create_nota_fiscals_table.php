@@ -15,6 +15,7 @@ class CreateNotaFiscalsTable extends Migration
     {
         Schema::create('nota_fiscals', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('numero')->unique();
             $table->date('data_emissao');
             $table->enum('tipo', ['entrada', 'saida']);
