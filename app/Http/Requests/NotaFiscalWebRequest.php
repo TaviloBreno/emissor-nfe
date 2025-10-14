@@ -89,17 +89,29 @@ class NotaFiscalWebRequest extends FormRequest
     public function messages()
     {
         return [
-            'numero.required' => 'O número da nota fiscal é obrigatório',
-            'numero.unique' => 'Este número de nota fiscal já existe',
-            'numero.max' => 'O número da nota fiscal não pode ter mais que 20 caracteres',
-            'data_emissao.required' => 'A data de emissão é obrigatória',
-            'data_emissao.date' => 'A data de emissão deve ser uma data válida',
-            'tipo.required' => 'O tipo da nota fiscal é obrigatório',
-            'tipo.in' => 'O tipo deve ser entrada ou saída',
-            'valor_total.required' => 'O valor total é obrigatório',
-            'valor_total.numeric' => 'O valor total deve ser um número',
-            'valor_total.min' => 'O valor total deve ser maior que zero',
-            'valor_total.max' => 'O valor total não pode ser maior que R$ 999.999,99'
+            'numero.required' => 'O número da nota é obrigatório.',
+            'numero.string' => 'O número da nota deve ser um texto.',
+            'numero.min' => 'O número da nota deve ter pelo menos 4 caracteres.',
+            'numero.max' => 'O número da nota deve ter no máximo 20 caracteres.',
+            'numero.unique' => 'Este número de nota já existe.',
+            
+            'data_emissao.required' => 'A data de emissão é obrigatória.',
+            'data_emissao.date' => 'A data de emissão deve ser uma data válida.',
+            'data_emissao.date_format' => 'A data de emissão deve estar no formato AAAA-MM-DD.',
+            'data_emissao.before_or_equal' => 'A data de emissão não pode ser futura.',
+            
+            'tipo.required' => 'O tipo da nota é obrigatório.',
+            'tipo.in' => 'O tipo deve ser "entrada" ou "saida".',
+            
+            'valor_total.required' => 'O valor total é obrigatório.',
+            'valor_total.numeric' => 'O valor total deve ser um número.',
+            'valor_total.min' => 'O valor total deve ser maior que zero.',
+            'valor_total.max' => 'O valor total deve ser menor que R$ 999.999.999,99.',
+            
+            'protocolo_autorizacao.string' => 'O protocolo deve ser um texto.',
+            'protocolo_autorizacao.max' => 'O protocolo deve ter no máximo 255 caracteres.',
+            
+            'xml_nfe.string' => 'O XML deve ser um texto válido.',
         ];
     }
 }
