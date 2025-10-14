@@ -16,6 +16,11 @@ use Illuminate\Http\Request;
 
 class NotaFiscalController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth')->except(['storeApi']);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -23,7 +28,9 @@ class NotaFiscalController extends Controller
      */
     public function index()
     {
-        //
+        $notas = NotaFiscal::orderBy('created_at', 'desc')->paginate(10);
+        
+        return view('notas.index', compact('notas'));
     }
 
     /**
@@ -33,20 +40,39 @@ class NotaFiscalController extends Controller
      */
     public function create()
     {
-        //
+        return view('notas.create');
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created resource in storage via API.
+     *
+     * @param  \App\Http\Requests\NotaFiscalRequest  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function storeApi(NotaFiscalRequest $request)
+    {
+        $notaFiscal = NotaFiscal::create($request->validated());
+        
+        return response()->json($notaFiscal, 201);
+    }
+
+    /**
+     * Store a newly created resource in storage via web form.
      *
      * @param  \App\Http\Requests\NotaFiscalRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(NotaFiscalRequest $request)
     {
-        $notaFiscal = NotaFiscal::create($request->validated());
-        
-        return response()->json($notaFiscal, 201);
+        try {
+            $notaFiscal = NotaFiscal::create($request->validated());
+            
+            return redirect()->route('notas.index')
+                ->with('success', 'Nota fiscal criada com sucesso!');
+        } catch (\Exception $e) {
+            return back()->withInput()
+                ->with('error', 'Erro ao criar nota fiscal: ' . $e->getMessage());
+        }
     }
 
     /**
