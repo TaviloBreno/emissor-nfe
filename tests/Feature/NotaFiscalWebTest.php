@@ -81,7 +81,7 @@ class NotaFiscalWebTest extends TestCase
         ];
 
         $response = $this->actingAs($this->user)
-            ->post('/notas/store', $dados);
+            ->post('/notas', $dados);
 
         $response->assertRedirect('/notas')
             ->assertSessionHas('success', 'Nota fiscal criada com sucesso!');
@@ -97,7 +97,7 @@ class NotaFiscalWebTest extends TestCase
     public function valida_campos_obrigatorios_ao_criar_nota()
     {
         $response = $this->actingAs($this->user)
-            ->post('/notas/store', []);
+            ->post('/notas', []);
 
         $response->assertSessionHasErrors([
             'numero',
@@ -120,7 +120,7 @@ class NotaFiscalWebTest extends TestCase
         ];
 
         $response = $this->actingAs($this->user)
-            ->post('/notas/store', $dados);
+            ->post('/notas', $dados);
 
         $response->assertSessionHasErrors(['numero']);
     }
@@ -181,7 +181,7 @@ class NotaFiscalWebTest extends TestCase
         ]);
 
         $response = $this->actingAs($this->user)
-            ->get("/notas/{$nota->id}/xml");
+            ->get("/notas/{$nota->id}/download");
 
         $response->assertStatus(200)
             ->assertHeader('Content-Type', 'application/xml')
