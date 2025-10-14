@@ -110,7 +110,7 @@ class NotaFiscalWebTest extends TestCase
     /** @test */
     public function valida_numero_unico_ao_criar_nota()
     {
-        NotaFiscal::factory()->create(['numero' => '12345']);
+        NotaFiscal::factory()->create(['numero' => '12345', 'user_id' => $this->user->id]);
 
         $dados = [
             'numero' => '12345',
@@ -134,7 +134,8 @@ class NotaFiscalWebTest extends TestCase
             'tipo' => 'saida',
             'valor_total' => 2500.00,
             'status' => 'autorizada',
-            'numero_protocolo' => '135240000000123'
+            'numero_protocolo' => '135240000000123',
+            'user_id' => $this->user->id
         ]);
 
         $response = $this->actingAs($this->user)
@@ -177,7 +178,8 @@ class NotaFiscalWebTest extends TestCase
     {
         $nota = NotaFiscal::factory()->create([
             'numero' => '11111',
-            'status' => 'autorizada'
+            'status' => 'autorizada',
+            'user_id' => $this->user->id
         ]);
 
         $response = $this->actingAs($this->user)
@@ -192,7 +194,8 @@ class NotaFiscalWebTest extends TestCase
     public function nao_pode_fazer_download_xml_nota_nao_autorizada()
     {
         $nota = NotaFiscal::factory()->create([
-            'status' => 'rascunho'
+            'status' => 'rascunho',
+            'user_id' => $this->user->id
         ]);
 
         $response = $this->actingAs($this->user)
