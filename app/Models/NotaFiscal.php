@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class NotaFiscal extends Model
 {
     use HasFactory;
-    
+
     protected $fillable = [
         'numero',
         'data_emissao',
@@ -17,14 +17,21 @@ class NotaFiscal extends Model
         'numero_protocolo',
         'status',
         'data_autorizacao',
-        'codigo_verificacao'
-    ];
-    
-    protected $casts = [
+        'codigo_verificacao',
+        'user_id'
+    ];    protected $casts = [
         'data_emissao' => 'date',
-        'valor_total' => 'decimal:2',
-        'data_autorizacao' => 'datetime'
+        'data_autorizacao' => 'datetime',
+        'valor_total' => 'decimal:2'
     ];
+
+    /**
+     * Relacionamento com User
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
     /**
      * Relacionamento com eventos da nota fiscal

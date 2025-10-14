@@ -66,7 +66,10 @@ class NotaFiscalController extends Controller
     public function store(NotaFiscalWebRequest $request)
     {
         try {
-            $notaFiscal = NotaFiscal::create($request->validated());
+            $data = $request->validated();
+            $data['user_id'] = auth()->id();
+            
+            $notaFiscal = NotaFiscal::create($data);
             
             return redirect()->route('notas.index')
                 ->with('success', 'Nota fiscal criada com sucesso!');
