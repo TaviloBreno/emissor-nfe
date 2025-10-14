@@ -17,12 +17,21 @@ use App\Http\Controllers\NotaFiscalController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/login', function () {
+    // Se o usuário estiver autenticado, redireciona para o dashboard
+    if (auth()->check()) {
+        return redirect('/dashboard');
+    }
+    // Se não estiver autenticado, mostra a tela de login
     return view('login');
 })->name('login');
+
+Route::get('/login', function () {
+    // Se já estiver logado, redireciona para dashboard
+    if (auth()->check()) {
+        return redirect('/dashboard');
+    }
+    return view('login');
+});
 
 Route::post('/logout', function () {
     Auth::logout();
