@@ -144,8 +144,7 @@ class ManifestacaoDestinatarioTest extends TestCase
     /** @test */
     public function nao_pode_manifestar_com_tipo_invalido()
     {
-        $notaFiscal = NotaFiscal::factory()->create([
-            'status' => 'autorizada',
+        $notaFiscal = NotaFiscal::factory()->autorizada()->create([
             'protocolo_autorizacao' => '135240000000005'
         ]);
 
@@ -176,8 +175,7 @@ class ManifestacaoDestinatarioTest extends TestCase
     /** @test */
     public function pode_registrar_multiplas_manifestacoes()
     {
-        $notaFiscal = NotaFiscal::factory()->create([
-            'status' => 'autorizada',
+        $notaFiscal = NotaFiscal::factory()->autorizada()->create([
             'protocolo_autorizacao' => '135240000000006'
         ]);
 

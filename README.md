@@ -256,14 +256,6 @@ Este projeto está licenciado sob a [MIT License](https://opensource.org/license
 
 ---
 
-## 📞 **Suporte**
-
-- 📧 **Email**: suporte@emissornfe.com.br
-- 📱 **Telefone**: (11) 99999-9999
-- 🌐 **Website**: https://emissornfe.com.br
-
----
-
 <p align="center">
   Desenvolvido com ❤️ usando Laravel | © 2024 Emissor NFe
 </p>

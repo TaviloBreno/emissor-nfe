@@ -220,6 +220,12 @@ class NotaFiscalController extends Controller
                 'data' => $resultado
             ]);
 
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Nota fiscal não encontrada'
+            ], 404);
+            
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
