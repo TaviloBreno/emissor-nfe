@@ -1,31 +1,56 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# 📋 Emissor NFe - Sistema Completo de Nota Fiscal Eletrônica
 
 <p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+  <img src="https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white" alt="Laravel">
+  <img src="https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white" alt="PHP">
+  <img src="https://img.shields.io/badge/MySQL-005C84?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL">
+  <img src="https://img.shields.io/badge/Tests-45%20Passed-green?style=for-the-badge" alt="Tests">
 </p>
 
-## About Laravel
+<p align="center">
+  Sistema profissional para emissão, gestão e controle de Notas Fiscais Eletrônicas (NFe) desenvolvido em Laravel.
+</p>
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 🚀 **Funcionalidades Principais**
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### 📄 **Gestão de Notas Fiscais**
+- ✅ **Criação completa** de notas fiscais com validação
+- ✅ **Geração de XML** estruturado e válido
+- ✅ **Assinatura digital** simulada com certificado
+- ✅ **Envio para SEFAZ** com retorno de protocolo
+- ✅ **Controle de status** (rascunho → assinada → autorizada)
 
-## Learning Laravel
+### 🔄 **Operações Pós-Emissão**
+- ✅ **Cancelamento** com validação de prazo (24h)
+- ✅ **Carta de Correção Eletrônica** (CCe) para ajustes
+- ✅ **Inutilização de numeração** não utilizada
+- ✅ **Manifestação do destinatário** (ciência, confirmação, discordância)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### 🛡️ **Segurança e Compliance**
+- ✅ **Validações robustas** conforme legislação
+- ✅ **Rastreabilidade completa** de eventos
+- ✅ **Auditoria** de todas as operações
+- ✅ **Protocolos únicos** e verificáveis
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+---
+
+## 🏗️ **Arquitetura e Tecnologias**
+
+### **Backend**
+- **Framework**: Laravel 8.x
+- **Linguagem**: PHP 7.4+
+- **Banco de Dados**: MySQL
+- **Testes**: PHPUnit com 45 testes e 190+ assertions
+
+### **Estrutura de Services**
+- **GeradorNFService**: Geração de XML
+- **AssinadorService**: Assinatura digital
+- **NFeClient**: Comunicação SEFAZ
+- **NotaFiscalService**: Orquestração completa
+- **CartaCorrecaoService**: Correções eletrônicas
+- **InutilizacaoService**: Controle de numeração
 
 ## Laravel Sponsors
 
