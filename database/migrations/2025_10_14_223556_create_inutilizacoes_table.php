@@ -15,6 +15,13 @@ class CreateInutilizacoesTable extends Migration
     {
         Schema::create('inutilizacoes', function (Blueprint $table) {
             $table->id();
+            $table->string('serie')->default('001');
+            $table->string('numero_inicial');
+            $table->string('numero_final');
+            $table->text('justificativa');
+            $table->string('numero_protocolo');
+            $table->enum('status', ['solicitada', 'autorizada', 'rejeitada'])->default('solicitada');
+            $table->timestamp('data_inutilizacao')->useCurrent();
             $table->timestamps();
         });
     }
