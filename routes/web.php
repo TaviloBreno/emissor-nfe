@@ -50,4 +50,5 @@ Route::middleware('auth')->group(function () {
     Route::post('/notas', [NotaFiscalController::class, 'store'])->name('notas.store');
     Route::get('/notas/{id}', [NotaFiscalController::class, 'show'])->name('notas.show');
     Route::get('/notas/{id}/download', [NotaFiscalController::class, 'downloadXml'])->name('notas.download');
+    Route::get('/notas/{id}/xml', [NotaFiscalController::class, 'downloadXml'])->name('notas.xml');
 });
