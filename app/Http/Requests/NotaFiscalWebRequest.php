@@ -24,11 +24,61 @@ class NotaFiscalWebRequest extends FormRequest
     public function rules()
     {
         return [
-            'numero' => 'required|string|unique:nota_fiscals,numero|max:20',
-            'data_emissao' => 'required|date',
-            'tipo' => 'required|in:entrada,saida',
-            'valor_total' => 'required|numeric|min:0.01|max:999999.99'
+            'numero' => [
+                'required',
+                'string',
+                'min:4',
+                'max:20',
+                'unique:nota_fiscals,numero'
+            ],
+            'data_emissao' => [
+                'required',
+                'date',
+                'date_format:Y-m-d',
+                'before_or_equal:today'
+            ],
+            'tipo' => [
+                'required',
+                'in:entrada,saida'
+            ],
+            'valor_total' => [
+                'required',
+                'numeric',
+                'min:0.01',
+                'max:999999999.99'
+            ],
+            'protocolo_autorizacao' => [
+                'sometimes',
+                'nullable',
+                'string',
+                'max:255'
+            ],
+            'xml_nfe' => [
+                'sometimes',
+                'nullable',
+                'string',
+                function ($attribute, $value, $fail) {
+                    if ($value && !$this->isValidXml($value)) {
+                        $fail('O campo XML NFe deve conter um XML válido.');
+                    }
+                }
+            ]
         ];
+    }
+
+    /**
+     * Verifica se o conteúdo é um XML válido
+     */
+    private function isValidXml(string $xml): bool
+    {
+        libxml_use_internal_errors(true);
+        $doc = simplexml_load_string($xml);
+        
+        if ($doc === false) {
+            return false;
+        }
+        
+        return true;
     }
 
     /**
