@@ -39,7 +39,7 @@ class NotaFiscalPolicy
      */
     public function update(User $user, NotaFiscal $notaFiscal)
     {
-        return $user->id === $notaFiscal->user_id;
+        return $user->id == $notaFiscal->user_id;
     }
 
     /**
@@ -47,7 +47,7 @@ class NotaFiscalPolicy
      */
     public function delete(User $user, NotaFiscal $notaFiscal)
     {
-        return $user->id === $notaFiscal->user_id;
+        return $user->id == $notaFiscal->user_id;
     }
 
     /**
@@ -55,6 +55,6 @@ class NotaFiscalPolicy
      */
     public function download(User $user, NotaFiscal $notaFiscal)
     {
-        return $user->id === $notaFiscal->user_id;
+        return $user->id == $notaFiscal->user_id;
     }
 }

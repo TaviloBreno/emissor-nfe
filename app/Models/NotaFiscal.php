@@ -22,7 +22,8 @@ class NotaFiscal extends Model
     ];    protected $casts = [
         'data_emissao' => 'date',
         'data_autorizacao' => 'datetime',
-        'valor_total' => 'decimal:2'
+        'valor_total' => 'decimal:2',
+        'user_id' => 'integer'
     ];
 
     /**
