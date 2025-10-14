@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\NotaFiscalRequest;
+use App\Http\Requests\CancelamentoNotaRequest;
 use App\Models\NotaFiscal;
+use App\Services\NotaFiscalService;
 use Illuminate\Http\Request;
 
 class NotaFiscalController extends Controller
