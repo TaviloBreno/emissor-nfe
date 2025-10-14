@@ -15,6 +15,13 @@ class CreateEventosNotaFiscalTable extends Migration
     {
         Schema::create('eventos_nota_fiscal', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('nota_fiscal_id')->constrained('nota_fiscals')->onDelete('cascade');
+            $table->enum('tipo_evento', ['cancelamento', 'correcao', 'inutilizacao']);
+            $table->text('justificativa');
+            $table->json('dados_anteriores')->nullable();
+            $table->json('dados_novos')->nullable();
+            $table->string('numero_protocolo_evento')->nullable();
+            $table->timestamp('data_evento')->useCurrent();
             $table->timestamps();
         });
     }
