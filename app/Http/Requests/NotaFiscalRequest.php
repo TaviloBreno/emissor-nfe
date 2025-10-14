@@ -13,7 +13,7 @@ class NotaFiscalRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return auth()->check();
     }
 
     /**
@@ -24,7 +24,7 @@ class NotaFiscalRequest extends FormRequest
     public function rules()
     {
         return [
-            'numero' => 'required|string|max:255|unique:nota_fiscals,numero',
+            'numero' => 'required|string|max:255|unique:nota_fiscals,numero,NULL,id,user_id,' . auth()->id(),
             'data_emissao' => 'required|date',
             'tipo' => 'required|in:entrada,saida',
             'valor_total' => 'required|numeric|min:0'

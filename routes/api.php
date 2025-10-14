@@ -17,3 +17,10 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+// API para listagem de notas (usado nos testes)
+Route::middleware('auth')->get('/notas', function () {
+    return \App\Models\NotaFiscal::where('user_id', auth()->id())
+        ->orderBy('created_at', 'desc')
+        ->get();
+});
