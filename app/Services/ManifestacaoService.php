@@ -59,7 +59,7 @@ class ManifestacaoService
             throw new \Exception('Só é possível manifestar sobre notas fiscais autorizadas');
         }
 
-        if (empty($notaFiscal->protocolo_autorizacao)) {
+        if (empty($notaFiscal->numero_protocolo)) {
             throw new \Exception('Nota fiscal deve possuir protocolo de autorização');
         }
     }
@@ -123,7 +123,7 @@ class ManifestacaoService
 
         // Log da operação simulada
         logger()->info("Manifestação enviada para SEFAZ", [
-            'chave_acesso' => $notaFiscal->chave_acesso,
+            'numero' => $notaFiscal->numero,
             'tipo_manifestacao' => $tipoManifestacao,
             'protocolo' => $protocolo,
             'justificativa' => $justificativa
