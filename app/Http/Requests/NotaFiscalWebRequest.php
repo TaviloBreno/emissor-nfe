@@ -29,7 +29,7 @@ class NotaFiscalWebRequest extends FormRequest
                 'string',
                 'min:4',
                 'max:20',
-                'unique:nota_fiscals,numero'
+                'unique:nota_fiscals,numero,NULL,id,user_id,' . auth()->id()
             ],
             'data_emissao' => [
                 'required',

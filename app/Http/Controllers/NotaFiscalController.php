@@ -59,7 +59,10 @@ class NotaFiscalController extends Controller
      */
     public function storeApi(NotaFiscalRequest $request)
     {
-        $notaFiscal = NotaFiscal::create($request->validated());
+        $data = $request->validated();
+        $data['user_id'] = auth()->id();
+        
+        $notaFiscal = NotaFiscal::create($data);
         
         return response()->json($notaFiscal, 201);
     }
@@ -72,6 +75,8 @@ class NotaFiscalController extends Controller
      */
     public function store(NotaFiscalWebRequest $request)
     {
+        $this->authorize('create', NotaFiscal::class);
+        
         try {
             $data = $request->validated();
             $data['user_id'] = auth()->id();
@@ -95,6 +100,7 @@ class NotaFiscalController extends Controller
     public function show($id)
     {
         $nota = NotaFiscal::findOrFail($id);
+        $this->authorize('view', $nota);
         
         return view('notas.show', compact('nota'));
     }
@@ -108,14 +114,15 @@ class NotaFiscalController extends Controller
     public function downloadXml($id)
     {
         $nota = NotaFiscal::findOrFail($id);
+        $this->authorize('download', $nota);
         
         if ($nota->status !== 'autorizada') {
             return redirect()->back()
                 ->with('error', 'XML disponível apenas para notas autorizadas.');
         }
 
-        // Gera XML simulado para download
-        $xml = $this->gerarXmlParaDownload($nota);
+        // Usa XML da nota ou gera simulado para download
+        $xml = $nota->xml_nfe ?: $this->gerarXmlParaDownload($nota);
         
         return response($xml, 200, [
             'Content-Type' => 'application/xml',
