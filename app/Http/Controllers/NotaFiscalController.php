@@ -29,7 +29,12 @@ class NotaFiscalController extends Controller
      */
     public function index()
     {
-        $notas = NotaFiscal::orderBy('created_at', 'desc')->paginate(10);
+        $this->authorize('viewAny', NotaFiscal::class);
+        
+        // Filtra apenas as notas do usuário logado
+        $notas = NotaFiscal::where('user_id', auth()->id())
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
         
         return view('notas.index', compact('notas'));
     }
@@ -41,6 +46,8 @@ class NotaFiscalController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', NotaFiscal::class);
+        
         return view('notas.create');
     }
 
