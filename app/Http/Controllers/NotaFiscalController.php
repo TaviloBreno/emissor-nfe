@@ -83,7 +83,64 @@ class NotaFiscalController extends Controller
      */
     public function show($id)
     {
-        //
+        $nota = NotaFiscal::findOrFail($id);
+        
+        return view('notas.show', compact('nota'));
+    }
+
+    /**
+     * Download XML da nota fiscal.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function downloadXml($id)
+    {
+        $nota = NotaFiscal::findOrFail($id);
+        
+        if ($nota->status !== 'autorizada') {
+            return redirect()->back()
+                ->with('error', 'XML disponível apenas para notas autorizadas.');
+        }
+
+        // Gera XML simulado para download
+        $xml = $this->gerarXmlParaDownload($nota);
+        
+        return response($xml, 200, [
+            'Content-Type' => 'application/xml',
+            'Content-Disposition' => 'attachment; filename="NFe_' . $nota->numero . '.xml"'
+        ]);
+    }
+
+    /**
+     * Gera XML simulado para download
+     */
+    private function gerarXmlParaDownload(NotaFiscal $nota): string
+    {
+        return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+<NFe xmlns=\"http://www.portalfiscal.inf.br/nfe\">
+    <infNFe Id=\"NFe{$nota->numero}\">
+        <ide>
+            <nNF>{$nota->numero}</nNF>
+            <dhEmi>{$nota->data_emissao->format('Y-m-d\\TH:i:s')}</dhEmi>
+            <tpNF>" . ($nota->tipo === 'saida' ? '1' : '0') . "</tpNF>
+        </ide>
+        <det>
+            <prod>
+                <vProd>{$nota->valor_total}</vProd>
+            </prod>
+        </det>
+        <total>
+            <vNF>{$nota->valor_total}</vNF>
+        </total>
+    </infNFe>
+    <protNFe>
+        <infProt>
+            <nProt>{$nota->numero_protocolo}</nProt>
+            <dhRecbto>{$nota->created_at->format('Y-m-d\\TH:i:s')}</dhRecbto>
+        </infProt>
+    </protNFe>
+</NFe>";
     }
 
     /**
