@@ -26,6 +26,7 @@ class NotaFiscalFactory extends Factory
             'data_emissao' => $this->faker->date(),
             'tipo' => 'saida',
             'valor_total' => $this->faker->randomFloat(2, 10, 10000),
+            'user_id' => \App\Models\User::factory(),
         ];
     }
 

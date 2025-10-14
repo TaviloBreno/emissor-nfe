@@ -23,7 +23,7 @@ class NotaFiscalValidationTest extends TestCase
     public function valida_campos_obrigatorios_faltando()
     {
         $response = $this->actingAs($this->user)
-            ->post('/notas', []);
+            ->postJson('/notas', []);
 
         $response->assertStatus(422)
             ->assertJsonValidationErrors([
@@ -38,7 +38,7 @@ class NotaFiscalValidationTest extends TestCase
     public function valida_numero_deve_ser_string()
     {
         $response = $this->actingAs($this->user)
-            ->post('/notas', [
+            ->postJson('/notas', [
                 'numero' => 123456, // número em vez de string
                 'data_emissao' => '2025-10-14',
                 'tipo' => 'saida',
@@ -53,7 +53,7 @@ class NotaFiscalValidationTest extends TestCase
     public function valida_data_emissao_formato_invalido()
     {
         $response = $this->actingAs($this->user)
-            ->post('/notas', [
+            ->postJson('/notas', [
                 'numero' => '12345',
                 'data_emissao' => 'data-invalida', // formato inválido
                 'tipo' => 'saida',
@@ -68,7 +68,7 @@ class NotaFiscalValidationTest extends TestCase
     public function valida_data_emissao_futura()
     {
         $response = $this->actingAs($this->user)
-            ->post('/notas', [
+            ->postJson('/notas', [
                 'numero' => '12345',
                 'data_emissao' => '2030-01-01', // data futura
                 'tipo' => 'saida',
@@ -83,7 +83,7 @@ class NotaFiscalValidationTest extends TestCase
     public function valida_tipo_deve_ser_enum_valido()
     {
         $response = $this->actingAs($this->user)
-            ->post('/notas', [
+            ->postJson('/notas', [
                 'numero' => '12345',
                 'data_emissao' => '2025-10-14',
                 'tipo' => 'tipo_invalido', // tipo inválido
@@ -98,7 +98,7 @@ class NotaFiscalValidationTest extends TestCase
     public function valida_valor_total_deve_ser_numerico()
     {
         $response = $this->actingAs($this->user)
-            ->post('/notas', [
+            ->postJson('/notas', [
                 'numero' => '12345',
                 'data_emissao' => '2025-10-14',
                 'tipo' => 'saida',
@@ -113,7 +113,7 @@ class NotaFiscalValidationTest extends TestCase
     public function valida_valor_total_deve_ser_positivo()
     {
         $response = $this->actingAs($this->user)
-            ->post('/notas', [
+            ->postJson('/notas', [
                 'numero' => '12345',
                 'data_emissao' => '2025-10-14',
                 'tipo' => 'saida',
@@ -128,7 +128,7 @@ class NotaFiscalValidationTest extends TestCase
     public function valida_valor_total_zero()
     {
         $response = $this->actingAs($this->user)
-            ->post('/notas', [
+            ->postJson('/notas', [
                 'numero' => '12345',
                 'data_emissao' => '2025-10-14',
                 'tipo' => 'saida',
@@ -143,7 +143,7 @@ class NotaFiscalValidationTest extends TestCase
     public function valida_numero_deve_ter_tamanho_minimo()
     {
         $response = $this->actingAs($this->user)
-            ->post('/notas', [
+            ->postJson('/notas', [
                 'numero' => '123', // muito curto
                 'data_emissao' => '2025-10-14',
                 'tipo' => 'saida',
@@ -158,7 +158,7 @@ class NotaFiscalValidationTest extends TestCase
     public function valida_numero_deve_ter_tamanho_maximo()
     {
         $response = $this->actingAs($this->user)
-            ->post('/notas', [
+            ->postJson('/notas', [
                 'numero' => '123456789012345678901', // muito longo
                 'data_emissao' => '2025-10-14',
                 'tipo' => 'saida',
@@ -179,7 +179,7 @@ class NotaFiscalValidationTest extends TestCase
         ]);
 
         $response = $this->actingAs($this->user)
-            ->post('/notas', [
+            ->postJson('/notas', [
                 'numero' => '12345', // número duplicado
                 'data_emissao' => '2025-10-14',
                 'tipo' => 'saida',
@@ -221,7 +221,7 @@ class NotaFiscalValidationTest extends TestCase
     public function valida_tamanho_maximo_protocolo()
     {
         $response = $this->actingAs($this->user)
-            ->post('/notas', [
+            ->postJson('/notas', [
                 'numero' => '12345',
                 'data_emissao' => '2025-10-14',
                 'tipo' => 'saida',
@@ -237,7 +237,7 @@ class NotaFiscalValidationTest extends TestCase
     public function valida_formato_xml_quando_fornecido()
     {
         $response = $this->actingAs($this->user)
-            ->post('/notas', [
+            ->postJson('/notas', [
                 'numero' => '12345',
                 'data_emissao' => '2025-10-14',
                 'tipo' => 'saida',
@@ -253,7 +253,7 @@ class NotaFiscalValidationTest extends TestCase
     public function aceita_dados_validos_completos()
     {
         $response = $this->actingAs($this->user)
-            ->post('/notas', [
+            ->postJson('/notas', [
                 'numero' => '12345',
                 'data_emissao' => '2025-10-14',
                 'tipo' => 'saida',

@@ -26,7 +26,8 @@ class AddUserIdToNotaFiscalsTable extends Migration
     public function down()
     {
         Schema::table('nota_fiscals', function (Blueprint $table) {
-            //
+            $table->dropForeign(['user_id']);
+            $table->dropColumn('user_id');
         });
     }
 }
