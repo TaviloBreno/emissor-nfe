@@ -145,7 +145,7 @@ class NotaFiscalWebTest extends TestCase
             ->assertSee('Detalhes da Nota Fiscal')
             ->assertSee('98765')
             ->assertSee('14/10/2025')
-            ->assertSee('Saída')
+            ->assertSee('Saida')
             ->assertSee('R$ 2.500,00')
             ->assertSee('Autorizada')
             ->assertSee('135240000000123')
@@ -196,7 +196,7 @@ class NotaFiscalWebTest extends TestCase
         ]);
 
         $response = $this->actingAs($this->user)
-            ->get("/notas/{$nota->id}/xml");
+            ->get("/notas/{$nota->id}/download");
 
         $response->assertRedirect()
             ->assertSessionHas('error', 'XML disponível apenas para notas autorizadas.');
