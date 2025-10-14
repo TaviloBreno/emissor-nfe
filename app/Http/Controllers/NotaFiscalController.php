@@ -161,4 +161,34 @@ class NotaFiscalController extends Controller
             'data' => $inutilizacoes
         ]);
     }
+
+    /**
+     * Emite carta de correção para uma nota fiscal
+     *
+     * @param  \App\Http\Requests\CartaCorrecaoRequest  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function emitirCartaCorrecao(CartaCorrecaoRequest $request, $id)
+    {
+        $notaFiscal = NotaFiscal::findOrFail($id);
+        $cartaCorrecaoService = new CartaCorrecaoService();
+        
+        $resultado = $cartaCorrecaoService->emitirCartaCorrecao($notaFiscal, $request->validated());
+        
+        if ($resultado['sucesso']) {
+            return response()->json([
+                'success' => true,
+                'message' => $resultado['mensagem'],
+                'protocolo_evento' => $resultado['protocolo_evento'],
+                'sequencia_evento' => $resultado['sequencia_evento'],
+                'data_evento' => $resultado['data_evento']
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'error' => $resultado['erro']
+            ], 422);
+        }
+    }
 }
