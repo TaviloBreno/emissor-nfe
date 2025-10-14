@@ -13,8 +13,7 @@ class ManifestacaoDestinatarioTest extends TestCase
     /** @test */
     public function pode_registrar_manifestacao_de_ciencia()
     {
-        $notaFiscal = NotaFiscal::factory()->create([
-            'status' => 'autorizada',
+        $notaFiscal = NotaFiscal::factory()->autorizada()->create([
             'protocolo_autorizacao' => '135240000000001'
         ]);
 
@@ -46,8 +45,7 @@ class ManifestacaoDestinatarioTest extends TestCase
     /** @test */
     public function pode_registrar_manifestacao_de_confirmacao()
     {
-        $notaFiscal = NotaFiscal::factory()->create([
-            'status' => 'autorizada',
+        $notaFiscal = NotaFiscal::factory()->autorizada()->create([
             'protocolo_autorizacao' => '135240000000002'
         ]);
 
@@ -78,8 +76,7 @@ class ManifestacaoDestinatarioTest extends TestCase
     /** @test */
     public function pode_registrar_manifestacao_de_discordancia()
     {
-        $notaFiscal = NotaFiscal::factory()->create([
-            'status' => 'autorizada',
+        $notaFiscal = NotaFiscal::factory()->autorizada()->create([
             'protocolo_autorizacao' => '135240000000003'
         ]);
 
@@ -110,9 +107,7 @@ class ManifestacaoDestinatarioTest extends TestCase
     /** @test */
     public function nao_pode_manifestar_nota_nao_autorizada()
     {
-        $notaFiscal = NotaFiscal::factory()->create([
-            'status' => 'rascunho'
-        ]);
+        $notaFiscal = NotaFiscal::factory()->create();
 
         $dados = [
             'tipo_manifestacao' => 'ciencia',
@@ -131,8 +126,7 @@ class ManifestacaoDestinatarioTest extends TestCase
     /** @test */
     public function nao_pode_manifestar_sem_justificativa()
     {
-        $notaFiscal = NotaFiscal::factory()->create([
-            'status' => 'autorizada',
+        $notaFiscal = NotaFiscal::factory()->autorizada()->create([
             'protocolo_autorizacao' => '135240000000004'
         ]);
 
