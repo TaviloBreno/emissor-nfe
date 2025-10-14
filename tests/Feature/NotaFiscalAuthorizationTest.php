@@ -97,7 +97,7 @@ class NotaFiscalAuthorizationTest extends TestCase
         // user1 já tem uma nota com número 11111
         // user2 deve conseguir criar uma nota com o mesmo número
         $response = $this->actingAs($this->user2)
-            ->postJson('/notas', [
+            ->postJson('/api/notas', [
                 'numero' => '11111', // mesmo número da nota do user1
                 'data_emissao' => '2025-10-14',
                 'tipo' => 'saida',
@@ -117,7 +117,7 @@ class NotaFiscalAuthorizationTest extends TestCase
     public function usuario_nao_pode_criar_nota_com_numero_duplicado_para_si_mesmo()
     {
         $response = $this->actingAs($this->user1)
-            ->postJson('/notas', [
+            ->postJson('/api/notas', [
                 'numero' => '11111', // mesmo número que já tem
                 'data_emissao' => '2025-10-14',
                 'tipo' => 'saida',
