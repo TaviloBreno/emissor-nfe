@@ -51,11 +51,6 @@
             background-color: rgba(255, 255, 255, 0.1);
         }
         
-        .glass-effect-dark {
-            backdrop-filter: blur(16px);
-            background-color: rgba(0, 0, 0, 0.2);
-        }
-        
         /* Animation classes */
         @keyframes fadeInUp {
             from {
@@ -81,34 +76,7 @@
         }
     </style>
 </head>
-<body class="h-full transition-colors duration-200" 
-      x-data="{ 
-          darkMode: localStorage.getItem('darkMode') === 'true' || false 
-      }" 
-      x-init="
-          $watch('darkMode', value => {
-              localStorage.setItem('darkMode', value);
-              if (value) {
-                  document.documentElement.classList.add('dark');
-              } else {
-                  document.documentElement.classList.remove('dark');
-              }
-          });
-          
-          if (darkMode) {
-              document.documentElement.classList.add('dark');
-          }
-      "
-      :class="darkMode ? 'bg-gradient-dark' : 'bg-gradient'">
-    
-    <!-- Dark Mode Toggle (Fixed Position) -->
-    <div class="fixed top-4 right-4 z-50">
-        <button @click="darkMode = !darkMode" 
-                class="inline-flex items-center justify-center w-12 h-12 rounded-full glass-effect dark:glass-effect-dark text-white hover:bg-white/20 dark:hover:bg-black/20 transition-all duration-200 shadow-lg">
-            <i x-show="!darkMode" class="fas fa-moon text-lg"></i>
-            <i x-show="darkMode" class="fas fa-sun text-lg"></i>
-        </button>
-    </div>
+<body class="h-full bg-gradient">
 
     <!-- Background Decoration -->
     <div class="absolute inset-0 overflow-hidden pointer-events-none">

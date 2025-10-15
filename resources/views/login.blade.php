@@ -5,7 +5,7 @@
 @section('content')
 <div class="w-full max-w-md animate-fade-in-up">
     <!-- Card de Login -->
-    <div class="bg-white/95 dark:bg-gray-800/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/20 dark:border-gray-700/50 overflow-hidden">
+    <div class="bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/20 overflow-hidden">
         <!-- Header -->
         <div class="bg-gradient-to-r from-blue-600 to-purple-600 p-6 text-center animate-fade-in-up-delay-1">
             <div class="flex justify-center mb-4">
