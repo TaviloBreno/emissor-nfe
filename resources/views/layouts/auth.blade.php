@@ -15,10 +15,9 @@
     <!-- Custom CSS -->
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
     
-    <!-- Tailwind Config for Dark Mode -->
+    <!-- Tailwind Config -->
     <script>
         tailwind.config = {
-            darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
