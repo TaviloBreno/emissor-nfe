@@ -176,6 +176,13 @@
                     <span x-show="sidebarOpen" x-transition:enter="transition-opacity duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" class="ml-3 font-medium">Relatórios</span>
                 </a>
                 
+                <!-- Notificações -->
+                <a href="{{ route('notifications.index') }}" 
+                   class="flex items-center px-3 py-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors group {{ request()->routeIs('notifications.*') ? 'bg-primary-50 dark:bg-primary-900 text-primary-700 dark:text-primary-300 border-r-2 border-primary-600' : '' }}">
+                    <i class="fas fa-bell text-lg w-5"></i>
+                    <span x-show="sidebarOpen" x-transition:enter="transition-opacity duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" class="ml-3 font-medium">Notificações</span>
+                </a>
+                
                 <!-- Configurações -->
                 <a href="{{ route('configuracoes.index') }}" 
                    class="flex items-center px-3 py-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors group {{ request()->routeIs('configuracoes.*') ? 'bg-primary-50 dark:bg-primary-900 text-primary-700 dark:text-primary-300 border-r-2 border-primary-600' : '' }}">
