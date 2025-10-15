@@ -99,12 +99,12 @@
                         </div>
                     </div>
 
-                    <!-- Notas Autorizadas -->
+                    <!-- Notas Aprovadas -->
                     <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100 hover:shadow-md transition-shadow">
                         <div class="flex items-center justify-between">
                             <div>
-                                <p class="text-gray-500 text-sm font-medium">Autorizadas</p>
-                                <p class="text-3xl font-bold text-green-600 mt-2">{{ number_format($stats['notas_autorizadas']) }}</p>
+                                <p class="text-gray-500 text-sm font-medium">Aprovadas</p>
+                                <p class="text-3xl font-bold text-green-600 mt-2">{{ number_format($stats['notas_aprovadas']) }}</p>
                                 <p class="text-xs text-gray-400 mt-1">
                                     <i class="fas fa-check-circle mr-1"></i>Aprovadas pela SEFAZ
                                 </p>
@@ -115,18 +115,18 @@
                         </div>
                     </div>
 
-                    <!-- Notas em Rascunho -->
+                    <!-- Notas Pendentes -->
                     <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100 hover:shadow-md transition-shadow">
                         <div class="flex items-center justify-between">
                             <div>
-                                <p class="text-gray-500 text-sm font-medium">Em Rascunho</p>
-                                <p class="text-3xl font-bold text-yellow-600 mt-2">{{ number_format($stats['notas_rascunho']) }}</p>
+                                <p class="text-gray-500 text-sm font-medium">Pendentes</p>
+                                <p class="text-3xl font-bold text-yellow-600 mt-2">{{ number_format($stats['notas_pendentes']) }}</p>
                                 <p class="text-xs text-gray-400 mt-1">
-                                    <i class="fas fa-edit mr-1"></i>Aguardando envio
+                                    <i class="fas fa-clock mr-1"></i>Aguardando processamento
                                 </p>
                             </div>
                             <div class="w-14 h-14 bg-yellow-100 rounded-xl flex items-center justify-center">
-                                <i class="fas fa-edit text-2xl text-yellow-600"></i>
+                                <i class="fas fa-clock text-2xl text-yellow-600"></i>
                             </div>
                         </div>
                     </div>
