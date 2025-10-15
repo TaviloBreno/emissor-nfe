@@ -23,6 +23,14 @@ class NotaFiscalRepository implements NotaFiscalRepositoryInterface
     }
 
     /**
+     * Get the model instance
+     */
+    public function getModel(): NotaFiscal
+    {
+        return $this->model;
+    }
+
+    /**
      * Buscar todas as notas fiscais do usuário autenticado com paginação
      */
     public function getAllByUser(int $perPage = 10): LengthAwarePaginator

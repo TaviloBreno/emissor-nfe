@@ -7,6 +7,7 @@ use App\Models\NotaFiscal;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Auth;
 
 class NotaFiscalService
 {
@@ -318,12 +319,19 @@ class NotaFiscalService
         $statusCount = $this->repository->countByStatus();
         $monthlyStats = $this->repository->getMonthlyStats();
         $recentActivities = $this->repository->getRecentActivities();
+        
+        // Calcular valor total das notas autorizadas
+        $valorTotal = $this->repository->getModel()
+            ->where('user_id', Auth::id())
+            ->where('status', 'autorizada')
+            ->sum('valor_total');
 
         return [
             'total_notas' => array_sum($statusCount),
             'status_count' => $statusCount,
             'monthly_stats' => $monthlyStats,
             'recent_activities' => $recentActivities,
+            'valor_total' => $valorTotal,
         ];
     }
 
