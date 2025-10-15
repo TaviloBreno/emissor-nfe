@@ -3,6 +3,10 @@
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
+.gradient-bg-dark {
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+}
+
 .card-hover {
     transition: all 0.3s ease;
 }
@@ -12,7 +16,68 @@
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
 }
 
+.dark .card-hover:hover {
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+/* Glass Effects */
+.glass-effect {
+    backdrop-filter: blur(16px);
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.glass-effect-dark {
+    backdrop-filter: blur(16px);
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+/* Sidebar Transitions */
+.sidebar-transition {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.content-transition {
+    transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Custom Scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 3px;
+}
+
+.dark .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #475569;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+.dark .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #64748b;
+}
+
 /* Animation classes */
+@keyframes fadeIn {
+    from { 
+        opacity: 0; 
+        transform: translateY(10px); 
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0); 
+    }
+}
+
 @keyframes fadeInUp {
     from {
         opacity: 0;
@@ -24,19 +89,187 @@
     }
 }
 
-.fade-in-up {
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.3s ease-out;
+}
+
+.animate-fade-in-up {
     animation: fadeInUp 0.6s ease-out;
 }
 
-.fade-in-up-delay-1 {
+.animate-fade-in-up-delay-1 {
     animation: fadeInUp 0.6s ease-out 0.2s both;
 }
 
-.fade-in-up-delay-2 {
+.animate-fade-in-up-delay-2 {
     animation: fadeInUp 0.6s ease-out 0.4s both;
 }
 
-.fade-in-up-delay-3 {
+.animate-fade-in-up-delay-3 {
     animation: fadeInUp 0.6s ease-out 0.6s both;
+}
+
+.animate-slide-in-left {
+    animation: slideInLeft 0.5s ease-out;
+}
+
+.animate-slide-in-right {
+    animation: slideInRight 0.5s ease-out;
+}
+
+.animate-pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Responsive Utilities */
+.sidebar-collapsed {
+    width: 4rem;
+}
+
+.sidebar-expanded {
+    width: 16rem;
+}
+
+/* Mobile Responsive Adjustments */
+@media (max-width: 768px) {
+    .sidebar-mobile {
+        transform: translateX(-100%);
+    }
+    
+    .sidebar-mobile.open {
+        transform: translateX(0);
+    }
+}
+
+/* Dark mode improvements */
+.dark .bg-gray-750 {
+    background-color: #2d374850;
+}
+
+/* Focus states for better accessibility */
+.focus-ring:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+}
+
+.dark .focus-ring:focus {
+    box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.5);
+}
+
+/* Button variants */
+.btn-primary {
+    background-color: #2563eb;
+    color: white;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    transition: all 0.2s;
+}
+
+.btn-primary:hover {
+    background-color: #1d4ed8;
+}
+
+.dark .btn-primary {
+    background-color: #3b82f6;
+}
+
+.dark .btn-primary:hover {
+    background-color: #2563eb;
+}
+
+.btn-secondary {
+    background-color: #e5e7eb;
+    color: #374151;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    transition: all 0.2s;
+}
+
+.btn-secondary:hover {
+    background-color: #d1d5db;
+}
+
+.dark .btn-secondary {
+    background-color: #374151;
+    color: #e5e7eb;
+}
+
+.dark .btn-secondary:hover {
+    background-color: #4b5563;
+}
+
+.btn-success {
+    background-color: #059669;
+    color: white;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    transition: all 0.2s;
+}
+
+.btn-success:hover {
+    background-color: #047857;
+}
+
+.dark .btn-success {
+    background-color: #10b981;
+}
+
+.dark .btn-success:hover {
+    background-color: #059669;
+}
+
+.btn-danger {
+    background-color: #dc2626;
+    color: white;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    transition: all 0.2s;
+}
+
+.btn-danger:hover {
+    background-color: #b91c1c;
+}
+
+.dark .btn-danger {
+    background-color: #ef4444;
+}
+
+.dark .btn-danger:hover {
+    background-color: #dc2626;
 }
 
