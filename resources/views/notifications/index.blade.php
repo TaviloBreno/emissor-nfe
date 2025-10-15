@@ -18,13 +18,13 @@
                     </span>
                 @endif
             </div>
-            
+
             <div class="flex space-x-2">
-                <button onclick="markAllAsRead()" 
+                <button onclick="markAllAsRead()"
                         class="btn-secondary text-sm">
                     <i class="fas fa-check-double mr-2"></i>Marcar todas como lidas
                 </button>
-                <button onclick="deleteReadNotifications()" 
+                <button onclick="deleteReadNotifications()"
                         class="btn-secondary text-sm">
                     <i class="fas fa-trash mr-2"></i>Excluir lidas
                 </button>
@@ -34,7 +34,7 @@
         <!-- Notifications List -->
         <div class="space-y-3">
             @forelse($notifications as $notification)
-                <div class="notification-item bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 hover:shadow-md transition-shadow {{ $notification->isUnread() ? 'ring-2 ring-blue-500/20' : '' }}"
+                <div class="notification-item bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 hover:shadow-md transition-shadow {{ is_null($notification->read_at) ? 'ring-2 ring-blue-500/20' : '' }}"
                      data-notification-id="{{ $notification->id }}">
                     <div class="p-6">
                         <div class="flex items-start space-x-4">
@@ -48,12 +48,12 @@
                                     <i class="{{ $notification->data['icon'] ?? 'fas fa-bell' }}"></i>
                                 </div>
                             </div>
-                            
+
                             <!-- Content -->
                             <div class="flex-1 min-w-0">
                                 <div class="flex items-start justify-between">
                                     <div class="flex-1">
-                                        <h3 class="text-sm font-semibold text-gray-900 dark:text-white 
+                                        <h3 class="text-sm font-semibold text-gray-900 dark:text-white
                                             {{ is_null($notification->read_at) ? 'font-bold' : '' }}">
                                             {{ $notification->data['title'] ?? 'Notificação' }}
                                         </h3>
@@ -64,39 +64,39 @@
                                             <i class="fas fa-clock mr-1"></i>{{ $notification->created_at->diffForHumans() }}
                                         </p>
                                     </div>
-                                    
+
                                     <!-- Actions -->
                                     <div class="flex items-center space-x-2 ml-4">
                                         @if(isset($notification->data['url']) && $notification->data['url'])
-                                            <a href="{{ $notification->data['url'] }}" 
+                                            <a href="{{ $notification->data['url'] }}"
                                                onclick="markAsRead('{{ $notification->id }}')"
                                                class="text-blue-600 dark:text-blue-400 hover:text-blue-500 text-sm">
                                                 <i class="fas fa-external-link-alt"></i>
                                             </a>
                                         @endif
-                                        
+
                                         @if(is_null($notification->read_at))
-                                            <button onclick="markAsRead('{{ $notification->id }}')" 
+                                            <button onclick="markAsRead('{{ $notification->id }}')"
                                                     class="text-green-600 dark:text-green-400 hover:text-green-500"
                                                     title="Marcar como lida">
                                                 <i class="fas fa-check"></i>
                                             </button>
                                         @else
-                                            <button onclick="markAsUnread('{{ $notification->id }}')" 
+                                            <button onclick="markAsUnread('{{ $notification->id }}')"
                                                     class="text-yellow-600 dark:text-yellow-400 hover:text-yellow-500"
                                                     title="Marcar como não lida">
                                                 <i class="fas fa-undo"></i>
                                             </button>
                                         @endif
-                                        
-                                        <button onclick="deleteNotification('{{ $notification->id }}')" 
+
+                                        <button onclick="deleteNotification('{{ $notification->id }}')"
                                                 class="text-red-600 dark:text-red-400 hover:text-red-500"
                                                 title="Excluir notificação">
                                             <i class="fas fa-trash"></i>
                                         </button>
                                     </div>
                                 </div>
-                                
+
                                 <!-- Unread Indicator -->
                                 @if(is_null($notification->read_at))
                                     <div class="absolute top-4 left-4 w-3 h-3 bg-blue-500 rounded-full"></div>
