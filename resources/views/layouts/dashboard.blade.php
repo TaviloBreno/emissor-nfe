@@ -232,10 +232,97 @@
                         </button>
                         
                         <!-- Notifications -->
-                        <button class="relative inline-flex items-center justify-center w-10 h-10 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-                            <i class="fas fa-bell"></i>
-                            <span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full"></span>
-                        </button>
+                        <div class="relative" x-data="{ notificationsOpen: false, notifications: [], unreadCount: 0 }" 
+                             x-init="loadNotifications()"
+                             @click.away="notificationsOpen = false">
+                            <button @click="notificationsOpen = !notificationsOpen" 
+                                    class="relative inline-flex items-center justify-center w-10 h-10 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                                <i class="fas fa-bell"></i>
+                                <span x-show="unreadCount > 0" 
+                                      class="absolute -top-1 -right-1 inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-red-500 rounded-full"
+                                      x-text="unreadCount > 99 ? '99+' : unreadCount"></span>
+                            </button>
+                            
+                            <!-- Notifications Dropdown -->
+                            <div x-show="notificationsOpen"
+                                 x-transition:enter="transition ease-out duration-200"
+                                 x-transition:enter-start="opacity-0 translate-y-1"
+                                 x-transition:enter-end="opacity-100 translate-y-0"
+                                 x-transition:leave="transition ease-in duration-150"
+                                 x-transition:leave-start="opacity-100 translate-y-0"
+                                 x-transition:leave-end="opacity-0 translate-y-1"
+                                 class="absolute right-0 mt-2 w-80 bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 z-50">
+                                
+                                <!-- Header -->
+                                <div class="p-4 border-b border-gray-200 dark:border-gray-700">
+                                    <div class="flex items-center justify-between">
+                                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Notificações</h3>
+                                        <div class="flex space-x-2">
+                                            <button @click="markAllAsRead()" 
+                                                    class="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-500" 
+                                                    title="Marcar todas como lidas">
+                                                <i class="fas fa-check-double"></i>
+                                            </button>
+                                            <a href="/notifications" 
+                                               class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-500"
+                                               title="Ver todas">
+                                                <i class="fas fa-external-link-alt"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Notifications List -->
+                                <div class="max-h-96 overflow-y-auto">
+                                    <template x-if="notifications.length === 0">
+                                        <div class="p-6 text-center">
+                                            <div class="w-12 h-12 mx-auto bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mb-3">
+                                                <i class="fas fa-bell-slash text-gray-400"></i>
+                                            </div>
+                                            <p class="text-sm text-gray-500 dark:text-gray-400">Nenhuma notificação</p>
+                                        </div>
+                                    </template>
+                                    
+                                    <template x-for="notification in notifications" :key="notification.id">
+                                        <div class="p-4 border-b border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 cursor-pointer"
+                                             @click="openNotification(notification)">
+                                            <div class="flex items-start space-x-3">
+                                                <div class="flex-shrink-0">
+                                                    <div class="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs"
+                                                         :class="{
+                                                             'bg-green-500': notification.color === 'green',
+                                                             'bg-red-500': notification.color === 'red',
+                                                             'bg-yellow-500': notification.color === 'yellow',
+                                                             'bg-blue-500': notification.color === 'blue' || !notification.color
+                                                         }">
+                                                        <i :class="notification.icon || 'fas fa-bell'"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="flex-1 min-w-0">
+                                                    <p class="text-sm font-medium text-gray-900 dark:text-white" 
+                                                       :class="{ 'font-bold': !notification.read_at }"
+                                                       x-text="notification.title"></p>
+                                                    <p class="text-xs text-gray-600 dark:text-gray-400 truncate" 
+                                                       x-text="notification.message"></p>
+                                                    <p class="text-xs text-gray-400 dark:text-gray-500 mt-1" 
+                                                       x-text="notification.created_at"></p>
+                                                </div>
+                                                <div x-show="!notification.read_at" 
+                                                     class="w-2 h-2 bg-blue-500 rounded-full flex-shrink-0"></div>
+                                            </div>
+                                        </div>
+                                    </template>
+                                </div>
+                                
+                                <!-- Footer -->
+                                <div class="p-3 border-t border-gray-200 dark:border-gray-700">
+                                    <a href="/notifications" 
+                                       class="block text-center text-sm text-blue-600 dark:text-blue-400 hover:text-blue-500 font-medium">
+                                        Ver todas as notificações
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
                         
                         <!-- User Menu -->
                         <div class="relative" x-data="{ userMenuOpen: false }">
@@ -323,6 +410,63 @@
     <!-- Scripts -->
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script src="{{ mix('js/app.js') }}"></script>
+    
+    <!-- Notifications Scripts -->
+    <script>
+        function loadNotifications() {
+            fetch('/api/notifications/unread')
+                .then(response => response.json())
+                .then(data => {
+                    this.notifications = data.notifications;
+                    this.unreadCount = data.count;
+                })
+                .catch(error => console.log('Error loading notifications:', error));
+        }
+
+        function markAllAsRead() {
+            fetch('/notifications/mark-all-read', {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    this.notifications.forEach(n => n.read_at = new Date());
+                    this.unreadCount = 0;
+                }
+            });
+        }
+
+        function openNotification(notification) {
+            // Marcar como lida se não foi lida
+            if (!notification.read_at) {
+                fetch(`/notifications/${notification.id}/mark-read`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                        'Content-Type': 'application/json',
+                    }
+                });
+                notification.read_at = new Date();
+                this.unreadCount = Math.max(0, this.unreadCount - 1);
+            }
+            
+            // Redirecionar se tiver URL
+            if (notification.url) {
+                window.location.href = notification.url;
+            }
+        }
+
+        // Auto-refresh notifications every 30 seconds
+        setInterval(() => {
+            if (typeof loadNotifications === 'function') {
+                loadNotifications();
+            }
+        }, 30000);
+    </script>
     
     @yield('scripts')
 </body>

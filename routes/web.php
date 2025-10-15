@@ -7,6 +7,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\NotaFiscalController;
 use App\Http\Controllers\RelatorioController;
 use App\Http\Controllers\ConfiguracaoController;
+use App\Http\Controllers\NotificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -58,4 +59,17 @@ Route::middleware('auth')->group(function () {
     Route::put('/configuracoes/profile', [ConfiguracaoController::class, 'updateProfile'])->name('configuracoes.profile');
     Route::put('/configuracoes/password', [ConfiguracaoController::class, 'updatePassword'])->name('configuracoes.password');
     Route::put('/configuracoes/emitente', [ConfiguracaoController::class, 'updateEmitente'])->name('configuracoes.emitente');
+    
+    // Notificações
+    Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
+    Route::get('/api/notifications/unread', [NotificationController::class, 'getUnread']);
+    Route::post('/notifications/{id}/mark-read', [NotificationController::class, 'markAsRead']);
+    Route::post('/notifications/{id}/mark-unread', [NotificationController::class, 'markAsUnread']);
+    Route::post('/notifications/mark-all-read', [NotificationController::class, 'markAllAsRead']);
+    Route::delete('/notifications/{id}', [NotificationController::class, 'delete']);
+    Route::delete('/notifications/delete-all', [NotificationController::class, 'deleteAll']);
+    Route::delete('/notifications/delete-read', [NotificationController::class, 'deleteRead']);
+    
+    // Teste de notificações (remover em produção)
+    Route::post('/notifications/test', [NotificationController::class, 'createTest'])->name('notifications.test');
 });
