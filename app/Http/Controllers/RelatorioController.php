@@ -3,30 +3,29 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Interfaces\NotaFiscalRepositoryInterface;
+use App\Models\NotaFiscal;
 
 class RelatorioController extends Controller
 {
-    private $notaFiscalRepository;
-
-    public function __construct(NotaFiscalRepositoryInterface $notaFiscalRepository)
+    public function __construct()
     {
         $this->middleware('auth');
-        $this->notaFiscalRepository = $notaFiscalRepository;
     }
 
     public function index()
     {
         // Estatísticas gerais
-        $totalNotas = $this->notaFiscalRepository->count();
-        $notasAprovadas = $this->notaFiscalRepository->countByStatus('aprovada');
-        $notasPendentes = $this->notaFiscalRepository->countByStatus('pendente');
-        $notasRejeitadas = $this->notaFiscalRepository->countByStatus('rejeitada');
-        $notasCanceladas = $this->notaFiscalRepository->countByStatus('cancelada');
+        $totalNotas = NotaFiscal::count();
+        $notasAprovadas = NotaFiscal::where('status', 'aprovada')->count();
+        $notasPendentes = NotaFiscal::where('status', 'pendente')->count();
+        $notasRejeitadas = NotaFiscal::where('status', 'rejeitada')->count();
+        $notasCanceladas = NotaFiscal::where('status', 'cancelada')->count();
 
         // Faturamento total
-        $faturamentoTotal = $this->notaFiscalRepository->sumValorTotal();
-        $faturamentoMesAtual = $this->notaFiscalRepository->sumValorTotalByMonth(now());
+        $faturamentoTotal = NotaFiscal::sum('valor_total') ?? 0;
+        $faturamentoMesAtual = NotaFiscal::whereMonth('created_at', now()->month)
+                                       ->whereYear('created_at', now()->year)
+                                       ->sum('valor_total') ?? 0;
 
         // Notas por status para gráfico
         $notasPorStatus = [
@@ -40,9 +39,12 @@ class RelatorioController extends Controller
         $faturamentoPorMes = [];
         for ($i = 5; $i >= 0; $i--) {
             $mes = now()->subMonths($i);
+            $valor = NotaFiscal::whereMonth('created_at', $mes->month)
+                              ->whereYear('created_at', $mes->year)
+                              ->sum('valor_total') ?? 0;
             $faturamentoPorMes[] = [
                 'mes' => $mes->format('M/Y'),
-                'valor' => $this->notaFiscalRepository->sumValorTotalByMonth($mes)
+                'valor' => $valor
             ];
         }
 
