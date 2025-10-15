@@ -13,7 +13,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        // Bind Repository Interface to Implementation
+        $this->app->bind(
+            \App\Contracts\NotaFiscalRepositoryInterface::class,
+            \App\Repositories\NotaFiscalRepository::class
+        );
     }
 
     /**

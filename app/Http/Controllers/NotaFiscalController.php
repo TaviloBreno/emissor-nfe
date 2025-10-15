@@ -17,9 +17,12 @@ use Illuminate\Http\Request;
 
 class NotaFiscalController extends Controller
 {
-    public function __construct()
+    protected $notaFiscalService;
+
+    public function __construct(NotaFiscalService $notaFiscalService)
     {
         $this->middleware('auth')->except(['storeApi']);
+        $this->notaFiscalService = $notaFiscalService;
     }
 
     /**
@@ -204,10 +207,13 @@ class NotaFiscalController extends Controller
      */
     public function cancelar(CancelamentoNotaRequest $request, $id)
     {
-        $notaFiscal = NotaFiscal::findOrFail($id);
-        $notaFiscalService = new NotaFiscalService();
+        $notaFiscal = $this->notaFiscalService->findNota($id);
         
-        $resultado = $notaFiscalService->cancelarNotaFiscal($notaFiscal, $request->validated()['justificativa']);
+        if (!$notaFiscal) {
+            return redirect()->route('notas.index')->with('error', 'Nota fiscal não encontrada.');
+        }
+        
+        $resultado = $this->notaFiscalService->cancelarNotaFiscal($notaFiscal, $request->validated()['justificativa']);
         
         if ($resultado['sucesso']) {
             return response()->json([
