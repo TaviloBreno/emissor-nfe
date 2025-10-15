@@ -115,18 +115,34 @@
                         </div>
                     </div>
 
-                    <!-- Notas Pendentes -->
+                    <!-- Notas Rascunho -->
                     <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100 hover:shadow-md transition-shadow">
                         <div class="flex items-center justify-between">
                             <div>
-                                <p class="text-gray-500 text-sm font-medium">Pendentes</p>
+                                <p class="text-gray-500 text-sm font-medium">Rascunhos</p>
                                 <p class="text-3xl font-bold text-yellow-600 mt-2">{{ number_format($stats['notas_pendentes']) }}</p>
                                 <p class="text-xs text-gray-400 mt-1">
-                                    <i class="fas fa-clock mr-1"></i>Aguardando processamento
+                                    <i class="fas fa-edit mr-1"></i>Em elaboração
                                 </p>
                             </div>
                             <div class="w-14 h-14 bg-yellow-100 rounded-xl flex items-center justify-center">
-                                <i class="fas fa-clock text-2xl text-yellow-600"></i>
+                                <i class="fas fa-edit text-2xl text-yellow-600"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Notas Canceladas -->
+                    <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100 hover:shadow-md transition-shadow">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-gray-500 text-sm font-medium">Canceladas</p>
+                                <p class="text-3xl font-bold text-red-600 mt-2">{{ number_format($stats['notas_canceladas']) }}</p>
+                                <p class="text-xs text-gray-400 mt-1">
+                                    <i class="fas fa-times-circle mr-1"></i>Canceladas pela SEFAZ
+                                </p>
+                            </div>
+                            <div class="w-14 h-14 bg-red-100 rounded-xl flex items-center justify-center">
+                                <i class="fas fa-times-circle text-2xl text-red-600"></i>
                             </div>
                         </div>
                     </div>
@@ -247,8 +263,9 @@
             data: {
                 labels: Object.keys(statusData).map(status => {
                     const statusMap = {
-                        'autorizada': 'Autorizada',
                         'rascunho': 'Rascunho',
+                        'assinada': 'Assinada',
+                        'autorizada': 'Autorizada',
                         'cancelada': 'Cancelada',
                         'rejeitada': 'Rejeitada'
                     };
@@ -257,8 +274,9 @@
                 datasets: [{
                     data: Object.values(statusData),
                     backgroundColor: [
-                        '#10B981', // Verde para autorizada
                         '#F59E0B', // Amarelo para rascunho
+                        '#3B82F6', // Azul para assinada
+                        '#10B981', // Verde para autorizada
                         '#EF4444', // Vermelho para cancelada
                         '#6B7280'  // Cinza para rejeitada
                     ],
