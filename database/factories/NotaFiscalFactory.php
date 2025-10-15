@@ -26,6 +26,10 @@ class NotaFiscalFactory extends Factory
             'data_emissao' => $this->faker->dateTimeBetween('-6 months', 'now'),
             'tipo' => $this->faker->randomElement(['entrada', 'saida']),
             'valor_total' => $this->faker->randomFloat(2, 50, 5000),
+            'status' => $this->faker->randomElement(['rascunho', 'assinada', 'autorizada', 'cancelada', 'rejeitada']),
+            'numero_protocolo' => $this->faker->optional()->numerify('##########'),
+            'data_autorizacao' => $this->faker->optional()->dateTimeBetween('-3 months', 'now'),
+            'codigo_verificacao' => $this->faker->optional()->numerify('########'),
             'user_id' => \App\Models\User::factory(),
         ];
     }
