@@ -1,0 +1,42 @@
+/* Custom styles */
+.gradient-bg {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.card-hover {
+    transition: all 0.3s ease;
+}
+
+.card-hover:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Animation classes */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in-up {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.fade-in-up-delay-1 {
+    animation: fadeInUp 0.6s ease-out 0.2s both;
+}
+
+.fade-in-up-delay-2 {
+    animation: fadeInUp 0.6s ease-out 0.4s both;
+}
+
+.fade-in-up-delay-3 {
+    animation: fadeInUp 0.6s ease-out 0.6s both;
+}
+
