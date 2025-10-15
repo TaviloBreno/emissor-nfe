@@ -41,11 +41,11 @@
                             <!-- Icon -->
                             <div class="flex-shrink-0">
                                 <div class="w-10 h-10 rounded-full flex items-center justify-center
-                                    @if($notification->getColor() == 'green') bg-green-100 dark:bg-green-900/20 text-green-600 dark:text-green-400
-                                    @elseif($notification->getColor() == 'red') bg-red-100 dark:bg-red-900/20 text-red-600 dark:text-red-400
-                                    @elseif($notification->getColor() == 'yellow') bg-yellow-100 dark:bg-yellow-900/20 text-yellow-600 dark:text-yellow-400
+                                    @if(($notification->data['color'] ?? 'blue') == 'green') bg-green-100 dark:bg-green-900/20 text-green-600 dark:text-green-400
+                                    @elseif(($notification->data['color'] ?? 'blue') == 'red') bg-red-100 dark:bg-red-900/20 text-red-600 dark:text-red-400
+                                    @elseif(($notification->data['color'] ?? 'blue') == 'yellow') bg-yellow-100 dark:bg-yellow-900/20 text-yellow-600 dark:text-yellow-400
                                     @else bg-blue-100 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 @endif">
-                                    <i class="{{ $notification->getIcon() }}"></i>
+                                    <i class="{{ $notification->data['icon'] ?? 'fas fa-bell' }}"></i>
                                 </div>
                             </div>
                             
@@ -54,28 +54,28 @@
                                 <div class="flex items-start justify-between">
                                     <div class="flex-1">
                                         <h3 class="text-sm font-semibold text-gray-900 dark:text-white 
-                                            {{ $notification->isUnread() ? 'font-bold' : '' }}">
-                                            {{ $notification->getTitle() }}
+                                            {{ is_null($notification->read_at) ? 'font-bold' : '' }}">
+                                            {{ $notification->data['title'] ?? 'Notificação' }}
                                         </h3>
                                         <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                                            {{ $notification->getMessage() }}
+                                            {{ $notification->data['message'] ?? '' }}
                                         </p>
                                         <p class="text-xs text-gray-400 dark:text-gray-500 mt-2">
-                                            <i class="fas fa-clock mr-1"></i>{{ $notification->getTimeAgo() }}
+                                            <i class="fas fa-clock mr-1"></i>{{ $notification->created_at->diffForHumans() }}
                                         </p>
                                     </div>
                                     
                                     <!-- Actions -->
                                     <div class="flex items-center space-x-2 ml-4">
-                                        @if($notification->getUrl())
-                                            <a href="{{ $notification->getUrl() }}" 
+                                        @if(isset($notification->data['url']) && $notification->data['url'])
+                                            <a href="{{ $notification->data['url'] }}" 
                                                onclick="markAsRead('{{ $notification->id }}')"
                                                class="text-blue-600 dark:text-blue-400 hover:text-blue-500 text-sm">
                                                 <i class="fas fa-external-link-alt"></i>
                                             </a>
                                         @endif
                                         
-                                        @if($notification->isUnread())
+                                        @if(is_null($notification->read_at))
                                             <button onclick="markAsRead('{{ $notification->id }}')" 
                                                     class="text-green-600 dark:text-green-400 hover:text-green-500"
                                                     title="Marcar como lida">
@@ -98,7 +98,7 @@
                                 </div>
                                 
                                 <!-- Unread Indicator -->
-                                @if($notification->isUnread())
+                                @if(is_null($notification->read_at))
                                     <div class="absolute top-4 left-4 w-3 h-3 bg-blue-500 rounded-full"></div>
                                 @endif
                             </div>

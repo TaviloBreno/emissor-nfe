@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Notification;
 
 class NotificationController extends Controller
 {
@@ -98,10 +97,12 @@ class NotificationController extends Controller
     // Teste - criar notificação de exemplo
     public function createTest()
     {
-        Auth::user()->notify(new \App\Notifications\NotaFiscalAprovada((object)[
+        $notaFiscal = (object)[
             'id' => 1,
             'numero' => '000000001'
-        ]));
+        ];
+        
+        Auth::user()->notify(new \App\Notifications\NotaFiscalAprovada($notaFiscal));
 
         return redirect()->back()->with('success', 'Notificação de teste criada!');
     }
