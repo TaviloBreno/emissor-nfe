@@ -17,6 +17,7 @@ class NotificationSeeder extends Seeder
         foreach ($users as $user) {
             // Notificação de aprovação
             DB::table('notifications')->insert([
+                'id' => Str::uuid(),
                 'type' => 'App\\Notifications\\NotaFiscalAprovada',
                 'notifiable_type' => 'App\\Models\\User',
                 'notifiable_id' => $user->id,
@@ -36,6 +37,7 @@ class NotificationSeeder extends Seeder
 
             // Notificação de rejeição
             DB::table('notifications')->insert([
+                'id' => Str::uuid(),
                 'type' => 'App\\Notifications\\NotaFiscalRejeitada',
                 'notifiable_type' => 'App\\Models\\User',
                 'notifiable_id' => $user->id,
@@ -55,6 +57,7 @@ class NotificationSeeder extends Seeder
 
             // Notificação de nova nota
             DB::table('notifications')->insert([
+                'id' => Str::uuid(),
                 'type' => 'App\\Notifications\\NotaFiscalCriada',
                 'notifiable_type' => 'App\\Models\\User',
                 'notifiable_id' => $user->id,
@@ -74,6 +77,7 @@ class NotificationSeeder extends Seeder
 
             // Notificação de sistema
             DB::table('notifications')->insert([
+                'id' => Str::uuid(),
                 'type' => 'App\\Notifications\\Sistema',
                 'notifiable_type' => 'App\\Models\\User',
                 'notifiable_id' => $user->id,
@@ -92,6 +96,7 @@ class NotificationSeeder extends Seeder
 
             // Notificação de backup
             DB::table('notifications')->insert([
+                'id' => Str::uuid(),
                 'type' => 'App\\Notifications\\Sistema',
                 'notifiable_type' => 'App\\Models\\User',
                 'notifiable_id' => $user->id,
