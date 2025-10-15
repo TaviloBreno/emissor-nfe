@@ -13,6 +13,8 @@ class CreateNotificationsTable extends Migration
      */
     public function up()
     {
+        Schema::dropIfExists('notifications');
+        
         Schema::create('notifications', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('type');
@@ -20,8 +22,6 @@ class CreateNotificationsTable extends Migration
             $table->text('data');
             $table->timestamp('read_at')->nullable();
             $table->timestamps();
-            
-            $table->index(['notifiable_type', 'notifiable_id']);
         });
     }
 
