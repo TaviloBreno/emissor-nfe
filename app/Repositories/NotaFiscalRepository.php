@@ -93,8 +93,9 @@ class NotaFiscalRepository implements NotaFiscalRepositoryInterface
             ->toArray();
 
         return [
-            'pendente' => $counts['pendente'] ?? 0,
-            'aprovada' => $counts['aprovada'] ?? 0,
+            'rascunho' => $counts['rascunho'] ?? 0,
+            'assinada' => $counts['assinada'] ?? 0,
+            'autorizada' => $counts['autorizada'] ?? 0,
             'cancelada' => $counts['cancelada'] ?? 0,
             'rejeitada' => $counts['rejeitada'] ?? 0,
         ];
